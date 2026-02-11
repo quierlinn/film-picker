@@ -1,11 +1,15 @@
 package com.quierlinn.filmpicker.service;
 
 import com.quierlinn.filmpicker.client.TmdbClient;
+import com.quierlinn.filmpicker.dto.MovieWithRating;
 import com.quierlinn.filmpicker.dto.tmdb.Genre;
-import com.quierlinn.filmpicker.dto.tmdb.TmdbMovieDetails;
 import com.quierlinn.filmpicker.dto.tmdb.TmdbSearchResult;
 import com.quierlinn.filmpicker.entity.Movie;
+import com.quierlinn.filmpicker.entity.Rating;
+import com.quierlinn.filmpicker.entity.User;
 import com.quierlinn.filmpicker.repository.MovieRepository;
+import com.quierlinn.filmpicker.repository.RatingRepository;
+import com.quierlinn.filmpicker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,8 @@ public class MovieService {
 
     private final TmdbClient tmdbClient;
     private final MovieRepository movieRepository;
+    private final RatingRepository ratingRepository;
+    private final UserRepository userRepository;
 
     public List<TmdbSearchResult> searchMovies(String query) {
         return tmdbClient.searchMovies(query);
@@ -43,7 +49,6 @@ public class MovieService {
                 int year = LocalDate.parse(details.getReleaseDate()).getYear();
                 movie.setReleaseYear(year);
             } catch (Exception ignored) {
-                // skip invalid dates
             }
         }
 
@@ -55,5 +60,35 @@ public class MovieService {
         }
 
         return movieRepository.save(movie);
+    }
+
+    public void rateMovie(Long movieId, Long userId, Integer score) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
+
+        Rating rating = ratingRepository.findByUserIdAndMovieId(userId, movieId)
+                .orElseGet(() -> {
+                    Rating newRating = new Rating();
+                    newRating.setUser(new User());
+                    newRating.setMovie(movie);
+                    return newRating;
+                });
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        rating.setUser(user);
+        rating.setMovie(movie);
+        rating.setScore(score);
+
+        ratingRepository.save(rating);
+    }
+
+    public List<MovieWithRating> getTopRatedMovies(int limit) {
+        List<Object[]> results = ratingRepository.findTopRatedMovies();
+        return results.stream()
+                .limit(limit)
+                .map(obj -> new MovieWithRating((Movie) obj[0], (Double) obj[1]))
+                .collect(Collectors.toList());
     }
 }
