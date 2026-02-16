@@ -44,4 +44,10 @@ public class MovieController {
     public ResponseEntity<List<MovieWithRating>> getTopRatedMovies() {
         return ResponseEntity.ok(movieService.getTopRatedMovies(10));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) {
+        Movie movie = movieService.getMovieById(id);
+        return ResponseEntity.ok(movie);
+    }
 }

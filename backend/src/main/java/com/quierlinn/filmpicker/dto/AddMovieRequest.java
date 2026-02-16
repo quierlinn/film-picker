@@ -1,4 +1,4 @@
-﻿package com.quierlinn.filmpicker.dto;
+package com.quierlinn.filmpicker.dto;
 
 public class AddMovieRequest {
     private Long movieId;

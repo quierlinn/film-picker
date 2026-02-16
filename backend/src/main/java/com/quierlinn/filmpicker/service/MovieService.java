@@ -91,4 +91,9 @@ public class MovieService {
                 .map(obj -> new MovieWithRating((Movie) obj[0], (Double) obj[1]))
                 .collect(Collectors.toList());
     }
+
+    public Movie getMovieById(Long id) {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
+    }
 }
