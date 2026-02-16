@@ -1,4 +1,4 @@
-﻿package com.quierlinn.filmpicker.entity;
+package com.quierlinn.filmpicker.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

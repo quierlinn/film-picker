@@ -1,4 +1,4 @@
-﻿package com.quierlinn.filmpicker.dto;
+package com.quierlinn.filmpicker.dto;
 
 import com.quierlinn.filmpicker.entity.Movie;
 import lombok.Data;

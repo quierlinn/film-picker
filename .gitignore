@@ -4,6 +4,7 @@
 .vscode/
 target/
 frontend/node_modules/
+frontend/frontend/
 frontend/dist/
 /docker-compose.yml
 .cline

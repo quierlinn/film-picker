@@ -1,4 +1,4 @@
-﻿package com.quierlinn.filmpicker.controller;
+package com.quierlinn.filmpicker.controller;
 
 import com.quierlinn.filmpicker.dto.MovieListRequest;
 import com.quierlinn.filmpicker.service.MovieListService;

@@ -1,4 +1,4 @@
-﻿package com.quierlinn.filmpicker.repository;
+package com.quierlinn.filmpicker.repository;
 
 import com.quierlinn.filmpicker.entity.MovieList;
 import org.springframework.data.jpa.repository.JpaRepository;

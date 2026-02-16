@@ -1,4 +1,4 @@
-﻿package com.quierlinn.filmpicker.dto;
+package com.quierlinn.filmpicker.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
